@@ -1,6 +1,7 @@
 #include "Universe.h"
 #include "stdio.h"
 #include "math.h"
+#include <fstream>
 
 #define GRAVITATIONAL_CONSTANT 6.67408E-11
 using namespace std;
@@ -11,6 +12,9 @@ Universe::Universe(){
 
 Universe::~Universe(){
     //TODO: pop every element from objects
+    while (!objects.empty()){
+        objects.pop_back();
+    }
 }
 
 int Universe::getNumberOfObjects(){                 //Prints the number of objects in the array
@@ -22,7 +26,7 @@ Object Universe::getObjectCopy(int position){
         //TODO: implement error handling
         return Object();
     }
-    return objects.at(position);         //Return a pointer to a copy of that object        
+    return objects.at(position);         //Return a pointer to a copy of that object
 }
 
 void Universe::addObject(Object newObject){        //Adds an object to the array and resizes it if necessary
@@ -43,6 +47,24 @@ void Universe::removeObject(int position){
 }
 
 
+
+bool Universe::saveSimulation(string name){
+    ofstream file_obj;
+    file_obj.open(name, ios::out);
+    file_obj.write((char*)&(*this), sizeof(*this));
+    file_obj.close();
+    return true;
+}
+bool Universe::loadSimulation(string name){
+    ifstream file_obj;
+    file_obj.open(name, ios::in);
+    file_obj.read((char*)&(*this), sizeof(*this));
+    file_obj.close();
+    return true;
+}
+
+
+
 void Universe::setObject(int n, Object newObject){ //changes the object at n position and deletes the previous one
     if(n >= objects.size()){
         return;
@@ -52,7 +74,7 @@ void Universe::setObject(int n, Object newObject){ //changes the object at n pos
     }
 }
 
-//FOR TESTING
+//FOR TESTING purposes
 
 
 void Universe::printAll(){

@@ -3,8 +3,7 @@
 class SimulationEnvironment{
     public:
         int numberOfThreads;
-        Universe universe;
-        
-        
+        //optimization options
 
+        Universe universe;
 };

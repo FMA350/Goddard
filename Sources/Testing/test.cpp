@@ -27,6 +27,7 @@ bool test1(){
     universe.removeObject(1);
     universe.printAll();
     return true;
+    //test passed on ? (11/24/2019)
 }
 
 
@@ -39,13 +40,50 @@ bool test2(){
     //add the newly created universe to the simulation environment
     //calculate energy before and after the addition of every object
     for(int i=0;i < 4;i++){
+
         Coordinate position = Coordinate(i*1.23+i*i, i*24/1.8, (i*100)/45);
         Coordinate speed    = Coordinate(i*1.23+i*i, i*24/1.8, (i*100)/45);
         Object obj = Object(names[i], position, speed, i*i*100, i*i*10);
         universe.addObject(obj);
+
+
+        cout << "Object added name: " << obj.getObjectName() << endl;
         cout << "newly added object kinetic energy: " << obj.calculateKineticEnergy() <<endl;
-        cout << "newly added object grav potential energy" << universe.calculateObjectGravitationalEnergy(universe.getNumberOfObjects()-1) <<endl;
+        cout << "newly added object grav potential energy " << universe.calculateObjectGravitationalEnergy(universe.getNumberOfObjects()-1) <<endl;
         cout << "total system energy: " <<universe.calculateTotalSystemEnergy() <<endl;
-        return true;
     }
+    return true;
+    //test passed on ? (11/24/2019)
+
+}
+
+bool test3(){
+    //test saving and loading functionalities of the program
+
+    Universe universe =  Universe(); //create a universe
+    char names[4][20]= {"Pluto", "Venus", "Mars","Jupiter"};
+    for(int i=0;i<4;i++){
+        Coordinate position = Coordinate(i*1.23+i*i, i*24/1.8, (i*100)/45);
+        Coordinate speed    = Coordinate(i*1.23+i*i, i*24/1.8, (i*100)/45);
+        Object obj = Object(names[i], position, speed, i*i*100, i*i*10);
+        universe.addObject(obj);
+    }
+    cout << "Printing all the element of the universe" << endl;
+    universe.printAll();
+
+    cout << "total system energy: " << universe.calculateTotalSystemEnergy() << endl;
+
+    cout << "saving this universe with name \"test3save\" " << endl;
+    universe.saveSimulation("test3save");
+
+    universe = Universe();
+    universe.loadSimulation("test3save");
+    cout << "Printing all the element of the second universe" << endl;
+    universe.printAll();
+    cout << "total system energy: " << universe.calculateTotalSystemEnergy() << endl;
+    if(universe.getNumberOfObjects() !=  4){return false;}
+    
+    return true;
+
+    //test passed on 11/24/2019
 }
